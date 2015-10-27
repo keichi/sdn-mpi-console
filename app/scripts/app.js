@@ -11,7 +11,8 @@
 angular
   .module('sdnMpiConsoleApp', [
     'ngAnimate',
-    'ui.router'
+    'ui.router',
+    'ngWebSocket'
   ])
   .config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
@@ -21,5 +22,6 @@ angular
         controller: 'MainCtrl',
         templateUrl: 'views/main.html'
       });
-  });
+  })
+  .constant('WS_RPC_URL', 'ws://localhost:8100/');
 
