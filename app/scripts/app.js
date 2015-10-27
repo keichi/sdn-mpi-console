@@ -10,5 +10,16 @@
  */
 angular
   .module('sdnMpiConsoleApp', [
-    'ngAnimate'
-  ]);
+    'ngAnimate',
+    'ui.router'
+  ])
+  .config(function($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise('/');
+    $stateProvider
+      .state('main', {
+        url: '/',
+        controller: 'MainCtrl',
+        templateUrl: 'views/main.html'
+      });
+  });
+
