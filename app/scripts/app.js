@@ -23,5 +23,5 @@ angular
         templateUrl: 'views/main.html'
       });
   })
-  .constant('WS_RPC_URL', 'ws://localhost:8100/');
+  .constant('WS_RPC_URL', 'ws://133.1.134.79:8080/v1.0/sdnmpi/ws');
 

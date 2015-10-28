@@ -12,35 +12,10 @@
         </thead>
 
         <tbody>
-          <tr>
-            <td>00:01:23:54:fe:6c</td>
-            <td>78:31:c1:d3:64:8c</td>
-            <td>7</td>
-          </tr>
-          <tr>
-            <td>00:01:23:54:fe:6c</td>
-            <td>78:31:c1:d3:64:8c</td>
-            <td>7</td>
-          </tr>
-          <tr>
-            <td>00:01:23:54:fe:6c</td>
-            <td>78:31:c1:d3:64:8c</td>
-            <td>7</td>
-          </tr>
-          <tr>
-            <td>00:01:23:54:fe:6c</td>
-            <td>78:31:c1:d3:64:8c</td>
-            <td>7</td>
-          </tr>
-          <tr>
-            <td>00:01:23:54:fe:6c</td>
-            <td>78:31:c1:d3:64:8c</td>
-            <td>7</td>
-          </tr>
-          <tr>
-            <td>00:01:23:54:fe:6c</td>
-            <td>78:31:c1:d3:64:8c</td>
-            <td>7</td>
+          <tr ng-repeat="entry in fdb | orderBy: ['dpid', 'mac', 'port']">
+            <td ng-bind="entry.dpid"></td>
+            <td ng-bind="entry.mac"></td>
+            <td ng-bind="entry.port"></td>
           </tr>
         </tbody>
       </table>
@@ -61,29 +36,9 @@
         </thead>
 
         <tbody>
-          <tr>
-            <td>0</td>
-            <td>78:31:c1:d3:64:8c</td>
-          </tr>
-          <tr>
-            <td>0</td>
-            <td>78:31:c1:d3:64:8c</td>
-          </tr>
-          <tr>
-            <td>0</td>
-            <td>78:31:c1:d3:64:8c</td>
-          </tr>
-          <tr>
-            <td>0</td>
-            <td>78:31:c1:d3:64:8c</td>
-          </tr>
-          <tr>
-            <td>0</td>
-            <td>78:31:c1:d3:64:8c</td>
-          </tr>
-          <tr>
-            <td>0</td>
-            <td>78:31:c1:d3:64:8c</td>
+          <tr ng-repeat="entry in rankdb | orderBy: ['rank', 'mac']">
+            <td ng-bind="entry.rank"></td>
+            <td ng-bind="entry.mac"></td>
           </tr>
         </tbody>
        </table>
