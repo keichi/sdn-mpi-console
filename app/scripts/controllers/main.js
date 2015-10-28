@@ -27,10 +27,10 @@ angular.module('sdnMpiConsoleApp')
     });
 
     jsonRpcServer.register('init_fdb', function(params, success) {
-      _.forEach(params[0], function(dpid, table) {
-        _.forEach(table, function(mac, port) {
+      _.forEach(params[0], function(table, dpid) {
+        _.forEach(table, function(port, mac) {
           $scope.fdb.push({
-            dpid: "0x" + dpid.toString(16),
+            dpid: "0x" + parseInt(dpid, 10).toString(16),
             mac: mac,
             port: port
           });
