@@ -47,6 +47,10 @@ angular.module('sdnMpiConsoleApp')
           },
           shape: 'ellipse'
         }
+      },
+      interaction: {
+        selectConnectedEdges: false,
+        tooltipDelay: 100,
       }
     };
 
@@ -90,7 +94,7 @@ angular.module('sdnMpiConsoleApp')
         title: 'Rank: ' + rank,
         group: 'process'
       });
-      edges.update({from: mac, to: rank});
+      edges.update({from: mac, to: rank, dashes: true, color: 'black'});
 
       success(null);
     });
@@ -105,7 +109,7 @@ angular.module('sdnMpiConsoleApp')
           title: 'Rank: ' + rank,
           group: 'process'
         });
-        edges.update({from: mac, to: rank});
+        edges.update({from: mac, to: rank, dashes: true, color: 'black'});
       });
 
       success(null);
@@ -130,10 +134,10 @@ angular.module('sdnMpiConsoleApp')
         };
       }));
       edges.update(_.map(topology.hosts, function(host) {
-        return {from: host.port.dpid, to: host.mac};
+        return {from: host.port.dpid, to: host.mac, color: 'black'};
       }));
       edges.update(_.map(topology.links, function(link) {
-        return {from: link.src.dpid, to: link.dst.dpid};
+        return {from: link.src.dpid, to: link.dst.dpid, color: 'black'};
       }));
 
       success(null);
@@ -158,7 +162,7 @@ angular.module('sdnMpiConsoleApp')
 
     jsonRpcServer.register('add_link', function(params, success) {
       var link = params[0];
-      edges.update({from: link.src.dpid, to: link.dst.dpid});
+      edges.update({from: link.src.dpid, to: link.dst.dpid, color: 'black'});
       success(null);
     });
 
@@ -174,7 +178,7 @@ angular.module('sdnMpiConsoleApp')
         title: 'MAC: ' + host.mac + '<br>' + 'IP: ' + (host.ipv4[0] || ''),
         group: 'host'
       });
-      edges.update({from: host.port.dpid, to: host.mac});
+      edges.update({from: host.port.dpid, to: host.mac, color: 'black'});
       success(null);
     });
 
