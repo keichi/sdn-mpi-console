@@ -52,9 +52,39 @@ angular.module('sdnMpiConsoleApp')
     });
 
     jsonRpcServer.register('init_rankdb', function(params, success) {
-      _.forEach(params[0], function(rank, port) {
-        $scope.rankdb.push({rank: rank, port: port});
+      _.forEach(params[0], function(mac, rank) {
+        $scope.rankdb.push({rank: parseInt(rank, 10), mac: mac});
       });
+      success(null);
+    });
+
+    jsonRpcServer.register('init_topologydb', function(params, success) {
+      console.log(params);
+      success(null);
+    });
+
+    jsonRpcServer.register('add_switch', function(params, success) {
+      console.log(params);
+      success(null);
+    });
+
+    jsonRpcServer.register('delete_switch', function(params, success) {
+      console.log(params);
+      success(null);
+    });
+
+    jsonRpcServer.register('add_link', function(params, success) {
+      console.log(params);
+      success(null);
+    });
+
+    jsonRpcServer.register('delete_link', function(params, success) {
+      console.log(params);
+      success(null);
+    });
+
+    jsonRpcServer.register('add_host', function(params, success) {
+      console.log(params);
       success(null);
     });
 

@@ -8,24 +8,26 @@
  * Factory in the sdnMpiConsoleApp.
  */
 angular.module('sdnMpiConsoleApp')
-  .factory('jsonRpcServer', function ($websocket, WS_RPC_URL) {
-    var socket = $websocket(WS_RPC_URL);
+  .factory('jsonRpcServer', function ($websocket, $timeout, WS_RPC_URL) {
+    var socket = $websocket(WS_RPC_URL, [], {
+      reconnectIfNotNormalClose: true
+    });
     var methods = {};
 
     socket.onOpen(function() {
-      console.log("[websocket] socket opened");
+      console.log("[websocket]opened connection to: " + socket.url);
     });
 
     socket.onClose(function() {
-      console.log("[websocket] socket closed");
+      console.log("[websocket] connection closed");
     });
 
     socket.onError(function() {
-      console.log("[websocket] socket error");
+      console.log("[websocket] error");
     });
 
     socket.onMessage(function(e) {
-      console.log("[websocket] socket received message: ", e.data);
+      console.log("[websocket] received message: ", e.data);
       var message;
       try {
         message = JSON.parse(e.data);
