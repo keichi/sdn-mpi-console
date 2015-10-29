@@ -3,5 +3,14 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="#/">SDN-MPI Console</a>
     </div>
+
+    <div class="nav navbar-nav navbar-right">
+      <p ng-show="isConnected" class="navbar-text">
+        Connected&nbsp;<span class="glyphicon glyphicon-ok"></span>
+      </p>
+      <p ng-hide="isConnected" class="navbar-text">
+        Disconnected&nbsp;<span class="glyphicon glyphicon-remove"></span>
+      </p>
+    </div>
   </div>
 </div>

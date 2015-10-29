@@ -13,13 +13,16 @@ angular.module('sdnMpiConsoleApp')
       reconnectIfNotNormalClose: true
     });
     var methods = {};
+    var isConnected = false;
 
     socket.onOpen(function() {
       console.log("[websocket] opened connection to: " + socket.url);
+      isConnected = true;
     });
 
     socket.onClose(function() {
       console.log("[websocket] connection closed");
+      isConnected = false;
     });
 
     socket.onError(function() {
@@ -91,6 +94,12 @@ angular.module('sdnMpiConsoleApp')
     return {
       register: function(name, method) {
         methods[name] = method;
+      },
+      isConnected: function() {
+        return isConnected;
+      },
+      url: function() {
+        return WS_RPC_URL;
       }
     };
   });
