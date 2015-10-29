@@ -24,34 +24,34 @@ angular.module('sdnMpiConsoleApp')
       },
       groups: {
         switch: {
-          color: "rgba(51, 122, 183, 255)",
+          color: 'rgba(51, 122, 183, 255)',
           font: {
             size: 16,
-            color: "rgba(255, 255, 255, 255)"
+            color: 'rgba(255, 255, 255, 255)'
           },
-          shape: "box"
+          shape: 'box'
         },
         host: {
-          color: "rgba(92, 184, 92, 255)",
+          color: 'rgba(92, 184, 92, 255)',
           font: {
             size: 16,
-            color: "rgba(255, 255, 255, 255)"
+            color: 'rgba(255, 255, 255, 255)'
           },
-          shape: "box"
+          shape: 'box'
         },
         process: {
-          color: "rgba(217, 83, 79, 255)",
+          color: 'rgba(217, 83, 79, 255)',
           font: {
             size: 16,
-            color: "rgba(255, 255, 255, 255)"
+            color: 'rgba(255, 255, 255, 255)'
           },
-          shape: "ellipse"
+          shape: 'ellipse'
         }
       }
     };
 
     jsonRpcServer.register('update_fdb', function(params, success) {
-      var dpid = "0x" + params[0].toString(16);
+      var dpid = '0x' + params[0].toString(16);
       var mac = params[1];
       var port = params[2];
 
@@ -67,7 +67,7 @@ angular.module('sdnMpiConsoleApp')
       _.forEach(params[0], function(table, dpid) {
         _.forEach(table, function(port, mac) {
           $scope.fdb.push({
-            dpid: "0x" + parseInt(dpid, 10).toString(16),
+            dpid: '0x' + parseInt(dpid, 10).toString(16),
             mac: mac,
             port: port
           });
@@ -86,9 +86,9 @@ angular.module('sdnMpiConsoleApp')
       $scope.rankdb.push({rank: rank, mac: mac});
       nodes.add({
         id: rank,
-        label: "Process",
-        title: "Rank: " + rank,
-        group: "process"
+        label: 'Process',
+        title: 'Rank: ' + rank,
+        group: 'process'
       });
       edges.add({from: mac, to: rank});
 
@@ -101,9 +101,9 @@ angular.module('sdnMpiConsoleApp')
 
         nodes.add({
           id: rank,
-          label: "Process",
-          title: "Rank: " + rank,
-          group: "process"
+          label: 'Process',
+          title: 'Rank: ' + rank,
+          group: 'process'
         });
         edges.add({from: mac, to: rank});
       });
@@ -116,17 +116,17 @@ angular.module('sdnMpiConsoleApp')
       nodes.add(_.map(topology.switches, function(sw) {
         return {
           id: sw.dpid,
-          label: "Switch",
-          title: "DPID: " + sw.dpid,
-          group: "switch"
+          label: 'Switch',
+          title: 'DPID: ' + sw.dpid,
+          group: 'switch'
         };
       }));
       nodes.add(_.map(topology.hosts, function(host) {
         return {
           id: host.mac,
-          label: "Host",
-          title: "MAC: " + host.mac + "<br>" + "IP: " + (host.ipv4[0] || ""),
-          group: "host"
+          label: 'Host',
+          title: 'MAC: ' + host.mac + '<br>' + 'IP: ' + (host.ipv4[0] || ''),
+          group: 'host'
         };
       }));
       edges.add(_.map(topology.hosts, function(host) {
@@ -143,9 +143,9 @@ angular.module('sdnMpiConsoleApp')
       var sw = params[0];
       nodes.add({
         id: sw.dpid,
-        label: "Switch",
-        title: "DPID: " + sw.dpid,
-        group: "switch"
+        label: 'Switch',
+        title: 'DPID: ' + sw.dpid,
+        group: 'switch'
       });
       success(null);
     });
@@ -170,9 +170,9 @@ angular.module('sdnMpiConsoleApp')
       var host = params[0];
       nodes.add({
         id: host.mac,
-        label: "Host",
-        title: "MAC: " + host.mac + "<br>" + "IP: " + (host.ipv4[0] || ""),
-        group: "host"
+        label: 'Host',
+        title: 'MAC: ' + host.mac + '<br>' + 'IP: ' + (host.ipv4[0] || ''),
+        group: 'host'
       });
       edges.add({from: host.port.dpid, to: host.mac});
       success(null);
