@@ -80,13 +80,10 @@ angular.module('sdnMpiConsoleApp')
       success(null);
     });
 
-    jsonRpcServer.register('update_rankdb', function(params, success) {
+    jsonRpcServer.register('add_process', function(params, success) {
       var rank = params[0];
       var mac = params[1];
 
-      _.remove($scope.rankdb, function(entry) {
-        return entry.rank === rank;
-      });
       $scope.rankdb.push({rank: rank, mac: mac});
       nodes.update({
         id: rank,
@@ -104,6 +101,22 @@ angular.module('sdnMpiConsoleApp')
 
       success(null);
     });
+
+    jsonRpcServer.register('delete_process', function(params, success) {
+      var rank = params[0];
+      var mac = $scope.rankdb[rank];
+
+      _.remove($scope.rankdb, function(entry) {
+        return entry.rank === rank;
+      });
+      nodes.remove(rank);
+      if (mac) {
+        edges.remove(mac + rank);
+      }
+
+      success(null);
+    });
+
 
     jsonRpcServer.register('init_rankdb', function(params, success) {
       _.forEach(params[0], function(mac, rank) {
