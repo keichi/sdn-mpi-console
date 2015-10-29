@@ -18,10 +18,24 @@ angular
   .config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
     $stateProvider
-      .state('main', {
+      .state('root', {
+        url: '',
+        abstract: 'true',
+        views: {
+          'header': {
+            templateUrl: 'views/header.html',
+            controller: 'HeaderCtrl'
+          }
+        }
+      })
+      .state('root.main', {
         url: '/',
-        controller: 'MainCtrl',
-        templateUrl: 'views/main.html'
+        views: {
+          'body@': {
+            controller: 'MainCtrl',
+            templateUrl: 'views/main.html'
+          }
+        }
       });
   })
   .constant('WS_RPC_URL', 'ws://133.1.134.79:8080/v1.0/sdnmpi/ws');
