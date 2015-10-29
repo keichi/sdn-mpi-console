@@ -12,7 +12,8 @@ angular
   .module('sdnMpiConsoleApp', [
     'ngAnimate',
     'ui.router',
-    'ngWebSocket'
+    'ngWebSocket',
+    'ngVis'
   ])
   .config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');

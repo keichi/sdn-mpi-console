@@ -15,7 +15,7 @@ angular.module('sdnMpiConsoleApp')
     var methods = {};
 
     socket.onOpen(function() {
-      console.log("[websocket]opened connection to: " + socket.url);
+      console.log("[websocket] opened connection to: " + socket.url);
     });
 
     socket.onClose(function() {

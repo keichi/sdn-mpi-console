@@ -1,6 +1,5 @@
 'use strict';
 
-/* global _ */
 /**
  * @ngdoc function
  * @name sdnMpiConsoleApp.controller:MainCtrl
@@ -9,9 +8,18 @@
  * Controller of the sdnMpiConsoleApp
  */
 angular.module('sdnMpiConsoleApp')
-  .controller('MainCtrl', function (jsonRpcServer, $scope) {
+  .controller('MainCtrl', function (jsonRpcServer, $scope, VisDataSet) {
     $scope.fdb = [];
     $scope.rankdb = [];
+
+    var nodes = VisDataSet([]);
+    var edges = VisDataSet([]);
+    $scope.topology = {nodes: nodes, edges: edges};
+    $scope.topologyOptions = {
+      physics: {
+        solver: 'barnesHut'
+      }
+    };
 
     jsonRpcServer.register('update_fdb', function(params, success) {
       var dpid = "0x" + params[0].toString(16);
@@ -59,32 +67,40 @@ angular.module('sdnMpiConsoleApp')
     });
 
     jsonRpcServer.register('init_topologydb', function(params, success) {
-      console.log(params);
+      var topology = params[0];
+      nodes.add(_.map(topology.switches, function(sw) {
+        return {id: sw.dpid, label: sw.dpid};
+      }));
+      nodes.add(_.map(topology.hosts, function(host) {
+        return {id: host.mac, label: host.mac};
+      }));
+      edges.add(_.map(topology.hosts, function(host) {
+        return {from: host.port.dpid, to: host.mac};
+      }));
+
+      console.log(nodes);
+      console.log(edges);
+
       success(null);
     });
 
     jsonRpcServer.register('add_switch', function(params, success) {
-      console.log(params);
       success(null);
     });
 
     jsonRpcServer.register('delete_switch', function(params, success) {
-      console.log(params);
       success(null);
     });
 
     jsonRpcServer.register('add_link', function(params, success) {
-      console.log(params);
       success(null);
     });
 
     jsonRpcServer.register('delete_link', function(params, success) {
-      console.log(params);
       success(null);
     });
 
     jsonRpcServer.register('add_host', function(params, success) {
-      console.log(params);
       success(null);
     });
 
