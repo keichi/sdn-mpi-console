@@ -84,13 +84,13 @@ angular.module('sdnMpiConsoleApp')
         return entry.rank === rank;
       });
       $scope.rankdb.push({rank: rank, mac: mac});
-      nodes.add({
+      nodes.update({
         id: rank,
         label: 'Process',
         title: 'Rank: ' + rank,
         group: 'process'
       });
-      edges.add({from: mac, to: rank});
+      edges.update({from: mac, to: rank});
 
       success(null);
     });
@@ -99,13 +99,13 @@ angular.module('sdnMpiConsoleApp')
       _.forEach(params[0], function(mac, rank) {
         $scope.rankdb.push({rank: parseInt(rank, 10), mac: mac});
 
-        nodes.add({
+        nodes.update({
           id: rank,
           label: 'Process',
           title: 'Rank: ' + rank,
           group: 'process'
         });
-        edges.add({from: mac, to: rank});
+        edges.update({from: mac, to: rank});
       });
 
       success(null);
@@ -113,7 +113,7 @@ angular.module('sdnMpiConsoleApp')
 
     jsonRpcServer.register('init_topologydb', function(params, success) {
       var topology = params[0];
-      nodes.add(_.map(topology.switches, function(sw) {
+      nodes.update(_.map(topology.switches, function(sw) {
         return {
           id: sw.dpid,
           label: 'Switch',
@@ -121,7 +121,7 @@ angular.module('sdnMpiConsoleApp')
           group: 'switch'
         };
       }));
-      nodes.add(_.map(topology.hosts, function(host) {
+      nodes.update(_.map(topology.hosts, function(host) {
         return {
           id: host.mac,
           label: 'Host',
@@ -129,10 +129,10 @@ angular.module('sdnMpiConsoleApp')
           group: 'host'
         };
       }));
-      edges.add(_.map(topology.hosts, function(host) {
+      edges.update(_.map(topology.hosts, function(host) {
         return {from: host.port.dpid, to: host.mac};
       }));
-      edges.add(_.map(topology.links, function(link) {
+      edges.update(_.map(topology.links, function(link) {
         return {from: link.src.dpid, to: link.dst.dpid};
       }));
 
@@ -141,7 +141,7 @@ angular.module('sdnMpiConsoleApp')
 
     jsonRpcServer.register('add_switch', function(params, success) {
       var sw = params[0];
-      nodes.add({
+      nodes.update({
         id: sw.dpid,
         label: 'Switch',
         title: 'DPID: ' + sw.dpid,
@@ -158,7 +158,7 @@ angular.module('sdnMpiConsoleApp')
 
     jsonRpcServer.register('add_link', function(params, success) {
       var link = params[0];
-      edges.add({from: link.src.dpid, to: link.dst.dpid});
+      edges.update({from: link.src.dpid, to: link.dst.dpid});
       success(null);
     });
 
@@ -168,13 +168,13 @@ angular.module('sdnMpiConsoleApp')
 
     jsonRpcServer.register('add_host', function(params, success) {
       var host = params[0];
-      nodes.add({
+      nodes.update({
         id: host.mac,
         label: 'Host',
         title: 'MAC: ' + host.mac + '<br>' + 'IP: ' + (host.ipv4[0] || ''),
         group: 'host'
       });
-      edges.add({from: host.port.dpid, to: host.mac});
+      edges.update({from: host.port.dpid, to: host.mac});
       success(null);
     });
 

@@ -73,13 +73,14 @@ angular.module('sdnMpiConsoleApp')
         return;
       }
 
-      methods[message.method](message.params, function(result) {
+      var successCallback = function(result) {
         socket.send(JSON.stringify({
           jsonrpc: "2.0",
           id: message.id,
           result: result
         }));
-      }, function(code, msg) {
+      };
+      var errorCallback = function(code, msg) {
         socket.send(JSON.stringify({
           jsonrpc: "2.0",
           error: {
@@ -88,7 +89,13 @@ angular.module('sdnMpiConsoleApp')
           },
           id: message.id
         }));
-      });
+      };
+      try {
+        methods[message.method](message.params, successCallback, errorCallback);
+      } catch(e) {
+        console.log("[jsonrpc] unexpected error: " + e.toString());
+        errorCallback(-32000, e.toString());
+      }
     });
 
     return {
