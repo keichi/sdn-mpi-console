@@ -1,60 +1,54 @@
-<div class="row">
-  <div class="col-lg-6">
-    <div class="panel panel-primary">
-      <div class="panel-heading">Switch Port DB</div>
-      <div class="panel-body">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Datapath ID</th>
-              <th>MAC Address</th>
-              <th>Port</th>
-            </tr>
-          </thead>
+<div class="col-lg-6">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Switch Port DB</div>
+    <div class="panel-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Datapath ID</th>
+            <th>MAC Address</th>
+            <th>Port</th>
+          </tr>
+        </thead>
 
-          <tbody>
-            <tr ng-repeat="entry in fdb | orderBy: ['dpid', 'mac', 'port']">
-              <td ng-bind="entry.dpid"></td>
-              <td ng-bind="entry.mac"></td>
-              <td ng-bind="entry.port"></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+        <tbody>
+          <tr ng-repeat="entry in fdb | orderBy: ['dpid', 'mac', 'port']">
+            <td ng-bind="entry.dpid"></td>
+            <td ng-bind="entry.mac"></td>
+            <td ng-bind="entry.port"></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <div class="col-lg-6">
-    <div class="panel panel-primary">
-      <div class="panel-heading">Process Allocation</div>
-      <div class="panel-body">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Process Rank</th>
-              <th>MAC Address</th>
-            </tr>
-          </thead>
+  <div class="panel panel-primary">
+    <div class="panel-heading">Process Allocation</div>
+    <div class="panel-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Process Rank</th>
+            <th>MAC Address</th>
+          </tr>
+        </thead>
 
-          <tbody>
-            <tr ng-repeat="entry in rankdb | orderBy: ['rank', 'mac']">
-              <td ng-bind="entry.rank"></td>
-              <td ng-bind="entry.mac"></td>
-            </tr>
-          </tbody>
-         </table>
-      </div>
+        <tbody>
+          <tr ng-repeat="entry in rankdb | orderBy: ['rank', 'mac']">
+            <td ng-bind="entry.rank"></td>
+            <td ng-bind="entry.mac"></td>
+          </tr>
+        </tbody>
+       </table>
     </div>
   </div>
 </div>
 
-<div class="row">
-  <div class="col-lg-6">
-    <div class="panel panel-primary">
-      <div class="panel-heading">Switch Port DB</div>
-      <div class="panel-body" style="height: 300px;">
-        <vis-network data="topology" options="topologyOptions"></vis-network>
-      </div>
+<div class="col-lg-6">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Topology</div>
+    <div class="panel-body" style="height: 400px;">
+      <vis-network data="topology" options="topologyOptions"></vis-network>
     </div>
   </div>
 </div>
