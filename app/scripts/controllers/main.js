@@ -55,6 +55,8 @@ angular.module('sdnMpiConsoleApp')
         return entry.rank === rank;
       });
       $scope.rankdb.push({rank: rank, mac: mac});
+      nodes.add({id: rank, label: "Rank " + rank});
+      edges.add({from: mac, to: rank});
 
       success(null);
     });
@@ -62,7 +64,11 @@ angular.module('sdnMpiConsoleApp')
     jsonRpcServer.register('init_rankdb', function(params, success) {
       _.forEach(params[0], function(mac, rank) {
         $scope.rankdb.push({rank: parseInt(rank, 10), mac: mac});
+
+        nodes.add({id: rank, label: "Rank " + rank});
+        edges.add({from: mac, to: rank});
       });
+
       success(null);
     });
 
@@ -77,22 +83,28 @@ angular.module('sdnMpiConsoleApp')
       edges.add(_.map(topology.hosts, function(host) {
         return {from: host.port.dpid, to: host.mac};
       }));
-
-      console.log(nodes);
-      console.log(edges);
+      edges.add(_.map(topology.links, function(link) {
+        return {from: link.src.dpid, to: link.dst.dpid};
+      }));
 
       success(null);
     });
 
     jsonRpcServer.register('add_switch', function(params, success) {
+      var sw = params[0];
+      nodes.add({id: sw.dpid, label: sw.dpid});
       success(null);
     });
 
     jsonRpcServer.register('delete_switch', function(params, success) {
+      var sw = params[0];
+      nodes.remove(sw.dpid);
       success(null);
     });
 
     jsonRpcServer.register('add_link', function(params, success) {
+      var link = params[0];
+      edges.add({from: link.src.dpid, to: link.dst.dpid});
       success(null);
     });
 
@@ -101,6 +113,9 @@ angular.module('sdnMpiConsoleApp')
     });
 
     jsonRpcServer.register('add_host', function(params, success) {
+      var host = params[0];
+      nodes.add({id: host.mac, label: host.mac});
+      edges.add({from: host.port.dpid, to: host.mac});
       success(null);
     });
 
