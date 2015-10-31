@@ -38,5 +38,5 @@ angular
         }
       });
   })
-  .constant('WS_RPC_URL', 'ws://133.1.134.79:8080/v1.0/sdnmpi/ws');
+  .constant('WS_RPC_URL', 'ws://133.1.134.225:8080/v1.0/sdnmpi/ws');
 
