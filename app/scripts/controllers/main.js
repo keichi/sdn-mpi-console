@@ -9,11 +9,11 @@
  */
 angular.module('sdnMpiConsoleApp')
   .controller('MainCtrl', function (jsonRpcServer, $scope, VisDataSet) {
-    $scope.fdb = [];
-    $scope.rankdb = [];
-
     var nodes = VisDataSet([]);
     var edges = VisDataSet([]);
+
+    $scope.fdb = [];
+    $scope.rankdb = [];
     $scope.topology = {nodes: nodes, edges: edges};
     $scope.topologyOptions = {
       physics: {
@@ -54,8 +54,18 @@ angular.module('sdnMpiConsoleApp')
       }
     };
 
+    var normalizeDPID = function(dpid) {
+      if (typeof dpid === 'number') {
+        dpid = dpid.toString(16);
+      }
+      dpid = _.padLeft(dpid, 16, '0').toLowerCase();
+      dpid = dpid.match(/[0-9a-f]{2}/g).join(':');
+
+      return dpid;
+    };
+
     jsonRpcServer.register('update_fdb', function(params, success) {
-      var dpid = '0x' + params[0].toString(16);
+      var dpid = normalizeDPID(parseInt(params[0]), 10);
       var mac = params[1];
       var port = params[2];
 
@@ -71,7 +81,7 @@ angular.module('sdnMpiConsoleApp')
       _.forEach(params[0], function(table, dpid) {
         _.forEach(table, function(port, mac) {
           $scope.fdb.push({
-            dpid: '0x' + parseInt(dpid, 10).toString(16),
+            dpid: normalizeDPID(parseInt(dpid, 10)),
             mac: mac,
             port: port
           });
@@ -146,7 +156,7 @@ angular.module('sdnMpiConsoleApp')
         return {
           id: sw.dpid,
           label: 'Switch',
-          title: 'DPID: ' + sw.dpid,
+          title: 'DPID: ' + normalizeDPID(sw.dpid),
           group: 'switch'
         };
       }));
@@ -183,7 +193,7 @@ angular.module('sdnMpiConsoleApp')
       nodes.update({
         id: sw.dpid,
         label: 'Switch',
-        title: 'DPID: ' + sw.dpid,
+        title: 'DPID: ' + normalizeDPID(sw.dpid),
         group: 'switch'
       });
       success(null);
