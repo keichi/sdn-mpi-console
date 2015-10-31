@@ -168,7 +168,7 @@ angular.module('sdnMpiConsoleApp')
       }));
       edges.update(_.map(topology.links, function(link) {
         return {
-          id: link.src.dpid + link.dst.dpid,
+          id: [link.src.dpid, link.dst.dpid].sort().join(""),
           from: link.src.dpid,
           to: link.dst.dpid,
           color: 'black'
@@ -198,7 +198,7 @@ angular.module('sdnMpiConsoleApp')
     jsonRpcServer.register('add_link', function(params, success) {
       var link = params[0];
       edges.update({
-        id: link.src.dpid + link.dst.dpid,
+        id: [link.src.dpid, link.dst.dpid].sort().join(""),
         from: link.src.dpid,
         to: link.dst.dpid,
         color: 'black'
@@ -207,6 +207,8 @@ angular.module('sdnMpiConsoleApp')
     });
 
     jsonRpcServer.register('delete_link', function(params, success) {
+      edges.remove([params.src.dpid, params.dst.dpid].sort().join());
+
       success(null);
     });
 
