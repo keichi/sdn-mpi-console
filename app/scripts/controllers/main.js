@@ -218,7 +218,7 @@ angular.module('sdnMpiConsoleApp')
 
     jsonRpcServer.register('delete_link', function(params, success) {
       var link = params[0];
-      edges.remove([link.src.dpid, link.dst.dpid].sort().join());
+      edges.remove([link.src.dpid, link.dst.dpid].sort().join(""));
 
       success(null);
     });
