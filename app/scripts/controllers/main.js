@@ -12,7 +12,7 @@ angular.module('sdnMpiConsoleApp')
     var nodes = VisDataSet([]);
     var edges = VisDataSet([]);
 
-    $scope.fdb = [];
+    $scope.fdb = {};
     $scope.rankdb = [];
     $scope.topology = {nodes: nodes, edges: edges};
     $scope.topologyOptions = {
@@ -66,27 +66,41 @@ angular.module('sdnMpiConsoleApp')
 
     jsonRpcServer.register('update_fdb', function(params, success) {
       var dpid = normalizeDPID(parseInt(params[0]), 10);
-      var mac = params[1];
-      var port = params[2];
+      var src = params[1];
+      var dst = params[2];
+      var port = params[3];
 
-      _.remove($scope.fdb, function(entry) {
-        return entry.dpid === dpid && entry.mac === mac;
+      if (!(dpid in $scope.fdb)) {
+        $scope.fdb[dpid] = [];
+      }
+
+      _.remove($scope.fdb[dpid], function(entry) {
+        return entry.src === src && entry.dst === dst;
       });
-      $scope.fdb.push({dpid: dpid, mac: mac, port: port});
+      $scope.fdb[dpid].push({src: src, dst: dst, port: port});
 
       success(null);
     });
 
     jsonRpcServer.register('init_fdb', function(params, success) {
-      _.forEach(params[0], function(table, dpid) {
-        _.forEach(table, function(port, mac) {
-          $scope.fdb.push({
-            dpid: normalizeDPID(parseInt(dpid, 10)),
-            mac: mac,
-            port: port
+      _.forEach(params[0], function(sw) {
+        var dpid = normalizeDPID(sw.dpid);
+        if (!(dpid in $scope.fdb)) {
+          $scope.fdb[dpid] = [];
+        }
+
+        _.forEach(sw.fdb, function(entry) {
+          console.log(entry);
+          $scope.fdb[dpid].push({
+            src: entry.src,
+            dst: entry.dst,
+            port: entry.out_port,
           });
         });
       });
+
+      console.log($scope.fdb);
+
       success(null);
     });
 
